@@ -1,31 +1,42 @@
 function modal() {
-	const trigger = document.querySelectorAll('.button-design'),
-		  close = document.querySelectorAll('.popup-close'),
-		  modal = document.querySelector('.popup-design');
 
-	function showModal() {
-		modal.style.display = 'block';
+	function showModal(elem) {
+		elem.style.display = 'block';
 		document.body.style.overflow = 'hidden';
 	}
 
-	function closeModal() {
-		modal.style.display = 'none';
+	function closeModal(elem) {
+		elem.style.display = 'none';
 		document.body.style.overflow = '';
 	}
 
-	trigger.forEach(item => {
-		item.addEventListener('click', showModal);
-	});
+	function bindModal(triggerSelector, closeSelector, modalSelector) {
+		const trigger = document.querySelectorAll(triggerSelector),
+			  close = document.querySelectorAll(closeSelector),
+			  modal = document.querySelector(modalSelector);
 
-	close.forEach(item => {
-		item.addEventListener('click', closeModal);
-	});
+		trigger.forEach(item => {
+			item.addEventListener('click', () => {
+				showModal(modal);
+			});
+		});
 
-	modal.addEventListener('click', (e) => {
-		if (e.target === modal) {
-			closeModal();
-		}
-	});
+		close.forEach(item => {
+			item.addEventListener('click', () => {
+				closeModal(modal);
+			});
+		});
+
+		modal.addEventListener('click', (e) => {
+			if (e.target === modal) {
+				closeModal(modal);
+			}
+		});
+	}
+
+	bindModal('.button-design', '.popup-close', '.popup-design');
+	bindModal('.button-consultation', '.popup-close', '.popup-consultation');
+	bindModal('.fixed-gift', '.popup-close', '.popup-gift');
 }
 
 export default modal;

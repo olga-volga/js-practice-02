@@ -954,31 +954,40 @@ __webpack_require__.r(__webpack_exports__);
 
 
 function modal() {
-  var trigger = document.querySelectorAll('.button-design'),
-      close = document.querySelectorAll('.popup-close'),
-      modal = document.querySelector('.popup-design');
-
-  function showModal() {
-    modal.style.display = 'block';
+  function showModal(elem) {
+    elem.style.display = 'block';
     document.body.style.overflow = 'hidden';
   }
 
-  function closeModal() {
-    modal.style.display = 'none';
+  function closeModal(elem) {
+    elem.style.display = 'none';
     document.body.style.overflow = '';
   }
 
-  trigger.forEach(function (item) {
-    item.addEventListener('click', showModal);
-  });
-  close.forEach(function (item) {
-    item.addEventListener('click', closeModal);
-  });
-  modal.addEventListener('click', function (e) {
-    if (e.target === modal) {
-      closeModal();
-    }
-  });
+  function bindModal(triggerSelector, closeSelector, modalSelector) {
+    var trigger = document.querySelectorAll(triggerSelector),
+        close = document.querySelectorAll(closeSelector),
+        modal = document.querySelector(modalSelector);
+    trigger.forEach(function (item) {
+      item.addEventListener('click', function () {
+        showModal(modal);
+      });
+    });
+    close.forEach(function (item) {
+      item.addEventListener('click', function () {
+        closeModal(modal);
+      });
+    });
+    modal.addEventListener('click', function (e) {
+      if (e.target === modal) {
+        closeModal(modal);
+      }
+    });
+  }
+
+  bindModal('.button-design', '.popup-close', '.popup-design');
+  bindModal('.button-consultation', '.popup-close', '.popup-consultation');
+  bindModal('.fixed-gift', '.popup-close', '.popup-gift');
 }
 
 /* harmony default export */ __webpack_exports__["default"] = (modal);
