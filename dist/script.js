@@ -978,19 +978,33 @@ function modal() {
   function bindModal(triggerSelector, closeSelector, modalSelector) {
     var trigger = document.querySelectorAll(triggerSelector),
         close = document.querySelectorAll(closeSelector),
-        modal = document.querySelector(modalSelector);
+        modal = document.querySelector(modalSelector),
+        windows = document.querySelectorAll('[data-modal]');
     trigger.forEach(function (item) {
-      item.addEventListener('click', function () {
+      item.addEventListener('click', function (e) {
+        if (e.target) {
+          e.preventDefault();
+        }
+
+        windows.forEach(function (item) {
+          closeModal(item);
+        });
         showModal(modal);
       });
     });
     close.forEach(function (item) {
       item.addEventListener('click', function () {
+        windows.forEach(function (item) {
+          closeModal(item);
+        });
         closeModal(modal);
       });
     });
     modal.addEventListener('click', function (e) {
       if (e.target === modal) {
+        windows.forEach(function (item) {
+          closeModal(item);
+        });
         closeModal(modal);
       }
     });

@@ -25,22 +25,36 @@ function modal() {
 	function bindModal(triggerSelector, closeSelector, modalSelector) {
 		const trigger = document.querySelectorAll(triggerSelector),
 			  close = document.querySelectorAll(closeSelector),
-			  modal = document.querySelector(modalSelector);
+			  modal = document.querySelector(modalSelector),
+			  windows = document.querySelectorAll('[data-modal]');
 
 		trigger.forEach(item => {
-			item.addEventListener('click', () => {
+			item.addEventListener('click', (e) => {
+				if (e.target) {
+					e.preventDefault();
+				}
+				windows.forEach(item => {
+					closeModal(item);
+				});
+				
 				showModal(modal);
 			});
 		});
 
 		close.forEach(item => {
 			item.addEventListener('click', () => {
+				windows.forEach(item => {
+					closeModal(item);
+				});
 				closeModal(modal);
 			});
 		});
 
 		modal.addEventListener('click', (e) => {
 			if (e.target === modal) {
+				windows.forEach(item => {
+					closeModal(item);
+				});
 				closeModal(modal);
 			}
 		});
