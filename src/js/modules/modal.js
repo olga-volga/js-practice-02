@@ -22,12 +22,6 @@ function modal() {
 		return scrollWidth;
 	}
 
-	function showModalByTime(selector, time) {
-		setTimeout(() => {
-			showModal(document.querySelector(selector));
-		}, time)
-	}
-
 	function bindModal(triggerSelector, closeSelector, modalSelector) {
 		const trigger = document.querySelectorAll(triggerSelector),
 			  close = document.querySelectorAll(closeSelector),
@@ -50,6 +44,20 @@ function modal() {
 				closeModal(modal);
 			}
 		});
+	}
+
+	function showModalByTime(selector, time) {
+		setTimeout(() => {
+			let anyModalShown = false;
+			document.querySelectorAll('[data-modal]').forEach(item => {
+				if (getComputedStyle(item).display !== 'none') {
+					anyModalShown = true;
+				}
+			});
+			if (!anyModalShown) {
+				showModal(document.querySelector(selector));
+			}
+		}, time)
 	}
 
 	bindModal('.button-design', '.popup-close', '.popup-design');

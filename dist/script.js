@@ -975,12 +975,6 @@ function modal() {
     return scrollWidth;
   }
 
-  function showModalByTime(selector, time) {
-    setTimeout(function () {
-      showModal(document.querySelector(selector));
-    }, time);
-  }
-
   function bindModal(triggerSelector, closeSelector, modalSelector) {
     var trigger = document.querySelectorAll(triggerSelector),
         close = document.querySelectorAll(closeSelector),
@@ -1000,6 +994,21 @@ function modal() {
         closeModal(modal);
       }
     });
+  }
+
+  function showModalByTime(selector, time) {
+    setTimeout(function () {
+      var anyModalShown = false;
+      document.querySelectorAll('[data-modal]').forEach(function (item) {
+        if (getComputedStyle(item).display !== 'none') {
+          anyModalShown = true;
+        }
+      });
+
+      if (!anyModalShown) {
+        showModal(document.querySelector(selector));
+      }
+    }, time);
   }
 
   bindModal('.button-design', '.popup-close', '.popup-design');
