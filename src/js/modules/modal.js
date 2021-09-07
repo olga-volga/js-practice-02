@@ -1,4 +1,5 @@
 function modal() {
+	let triggerClicked = false;
 
 	function showModal(elem) {
 		elem.style.display = 'block';
@@ -22,7 +23,7 @@ function modal() {
 		return scrollWidth;
 	}
 
-	function bindModal(triggerSelector, closeSelector, modalSelector) {
+	function bindModal(triggerSelector, closeSelector, modalSelector, deleteTrigger = false) {
 		const trigger = document.querySelectorAll(triggerSelector),
 			  close = document.querySelectorAll(closeSelector),
 			  modal = document.querySelector(modalSelector),
@@ -33,10 +34,15 @@ function modal() {
 				if (e.target) {
 					e.preventDefault();
 				}
+
+				triggerClicked = true;
+
 				windows.forEach(item => {
 					closeModal(item);
 				});
-				
+				if (e.target && deleteTrigger) {
+					e.target.remove();
+				}
 				showModal(modal);
 			});
 		});
@@ -74,11 +80,23 @@ function modal() {
 		}, time)
 	}
 
+	function showModalByScroll(selector) {
+		window.addEventListener('scroll', () => {
+			if (!triggerClicked && (window.pageYOffset + document.documentElement.clientHeight >= document.documentElement.scrollHeight)) {
+				document.querySelector(selector).click();
+			}
+		});
+		
+		
+	}
+
 	bindModal('.button-design', '.popup-close', '.popup-design');
 	bindModal('.button-consultation', '.popup-close', '.popup-consultation');
-	bindModal('.fixed-gift', '.popup-close', '.popup-gift');
+	bindModal('.fixed-gift', '.popup-close', '.popup-gift', true);
 
-	showModalByTime('.popup-consultation', 5000);
+	//showModalByTime('.popup-consultation', 5000);
+	showModalByScroll('.fixed-gift');
+	
 }
 
 export default modal;

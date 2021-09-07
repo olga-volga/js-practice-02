@@ -954,6 +954,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 function modal() {
+  var triggerClicked = false;
+
   function showModal(elem) {
     elem.style.display = 'block';
     document.body.style.overflow = 'hidden';
@@ -976,6 +978,7 @@ function modal() {
   }
 
   function bindModal(triggerSelector, closeSelector, modalSelector) {
+    var deleteTrigger = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : false;
     var trigger = document.querySelectorAll(triggerSelector),
         close = document.querySelectorAll(closeSelector),
         modal = document.querySelector(modalSelector),
@@ -986,9 +989,15 @@ function modal() {
           e.preventDefault();
         }
 
+        triggerClicked = true;
         windows.forEach(function (item) {
           closeModal(item);
         });
+
+        if (e.target && deleteTrigger) {
+          e.target.remove();
+        }
+
         showModal(modal);
       });
     });
@@ -1025,10 +1034,19 @@ function modal() {
     }, time);
   }
 
+  function showModalByScroll(selector) {
+    window.addEventListener('scroll', function () {
+      if (!triggerClicked && window.pageYOffset + document.documentElement.clientHeight >= document.documentElement.scrollHeight) {
+        document.querySelector(selector).click();
+      }
+    });
+  }
+
   bindModal('.button-design', '.popup-close', '.popup-design');
   bindModal('.button-consultation', '.popup-close', '.popup-consultation');
-  bindModal('.fixed-gift', '.popup-close', '.popup-gift');
-  showModalByTime('.popup-consultation', 5000);
+  bindModal('.fixed-gift', '.popup-close', '.popup-gift', true); //showModalByTime('.popup-consultation', 5000);
+
+  showModalByScroll('.fixed-gift');
 }
 
 /* harmony default export */ __webpack_exports__["default"] = (modal);
