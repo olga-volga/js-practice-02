@@ -960,12 +960,16 @@ function modal() {
     elem.style.display = 'block';
     document.body.style.overflow = 'hidden';
     document.body.style.marginRight = "".concat(calcScrollWidth(), "px");
+    document.body.style.marginBottom = "".concat(calcScrollWidth(), "px");
+    document.querySelector('.fixed-gift').style.marginRight = "".concat(calcScrollWidth(), "px");
   }
 
   function closeModal(elem) {
     elem.style.display = 'none';
     document.body.style.overflow = '';
     document.body.style.marginRight = '0px';
+    document.body.style.marginBottom = '0px';
+    document.querySelector('.fixed-gift').style.marginRight = '0px';
   }
 
   function calcScrollWidth() {
