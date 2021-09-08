@@ -992,6 +992,7 @@ function modal() {
         triggerClicked = true;
         windows.forEach(function (item) {
           closeModal(item);
+          item.classList.add('animated', 'fadeIn');
         });
 
         if (e.target && deleteTrigger) {

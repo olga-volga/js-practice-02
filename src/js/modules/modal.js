@@ -39,6 +39,7 @@ function modal() {
 
 				windows.forEach(item => {
 					closeModal(item);
+					item.classList.add('animated', 'fadeIn');
 				});
 				if (e.target && deleteTrigger) {
 					e.target.remove();
