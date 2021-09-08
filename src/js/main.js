@@ -5,5 +5,6 @@ window.addEventListener('DOMContentLoaded', () => {
 	'use strict';
 
 	modal();
-	slider();
+	slider('.main-slider-item', '.main-slider', 'vertical');
+	slider('.feedback-slider-item', '.feedback-slider', 'horizontal', '.main-prev-btn', '.main-next-btn');
 });
