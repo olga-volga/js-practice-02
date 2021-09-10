@@ -1,35 +1,34 @@
+function showModal(elem) {
+	elem.style.display = 'block';
+	document.body.style.overflow = 'hidden';
+	document.body.style.marginRight = `${calcScrollWidth()}px`;
+	try {
+		document.querySelector('.fixed-gift').style.marginRight = `${calcScrollWidth()}px`;
+	}
+	catch(e) {}
+}
+
+function closeModal(elem) {
+	elem.style.display = 'none';
+	document.body.style.overflow = '';
+	document.body.style.marginRight = '0px';
+	try {
+		document.querySelector('.fixed-gift').style.marginRight = '0px';
+	}
+	catch(e) {}
+}
+
+function calcScrollWidth() {
+	let div = document.createElement('div');
+	div.style.cssText = 'width:50px;height:50px;overflow-y:scroll;visibility:hidden;';
+	document.body.append(div);
+	let scrollWidth = div.offsetWidth - div.clientWidth;
+	div.remove();
+	return scrollWidth;
+}
+
 function modal() {
 	let triggerClicked = false;
-
-	function showModal(elem) {
-		elem.style.display = 'block';
-		document.body.style.overflow = 'hidden';
-		document.body.style.marginRight = `${calcScrollWidth()}px`;
-		try {
-			document.querySelector('.fixed-gift').style.marginRight = `${calcScrollWidth()}px`;
-		}
-		catch(e) {}
-	}
-
-	function closeModal(elem) {
-		elem.style.display = 'none';
-		document.body.style.overflow = '';
-		document.body.style.marginRight = '0px';
-		try {
-			document.querySelector('.fixed-gift').style.marginRight = '0px';
-		}
-		catch(e) {}
-	}
-
-	function calcScrollWidth() {
-		let div = document.createElement('div');
-		div.style.cssText = 'width:50px;height:50px;overflow-y:scroll;visibility:hidden;';
-		document.body.append(div);
-
-		let scrollWidth = div.offsetWidth - div.clientWidth;
-		div.remove();
-		return scrollWidth;
-	}
 
 	function bindModal(triggerSelector, closeSelector, modalSelector, deleteTrigger = false) {
 		const trigger = document.querySelectorAll(triggerSelector),
@@ -109,3 +108,4 @@ function modal() {
 }
 
 export default modal;
+export {closeModal};
