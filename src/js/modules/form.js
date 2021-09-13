@@ -1,20 +1,27 @@
 import {closeModal} from './modal';
 
-function form(state) {
+function form(info) {
 	const forms = document.querySelectorAll('form'),
 		  inputs = document.querySelectorAll('input'),
 		  phoneInputs = document.querySelectorAll('input[name="phone"]'),
-		  popupContent = document.querySelectorAll('.popup-content');
+		  imgInputs = document.querySelectorAll('input[name="upload"]'),
+		  windows = document.querySelectorAll('[data-modal]');
 
 	const message = {
 		load: 'Идет отправка...',
 		success: 'Отправлено! Скоро мы с вами свяжемся',
-		fail: 'Произошла ошибка...'
+		fail: 'Произошла ошибка...',
+		loadImg: 'assets/img/spinner.gif',
+		successImg: 'assets/img/ok.png',
+		failImg: 'assets/img/fail.png'
 	};
 
-	const postData = async (url, data) => {
-		document.querySelector('.status').textContent = message.load;
+	const path = {
+		designer: 'assets/server.php',
+		question: 'assets/question.php'
+	}
 
+	const postData = async (url, data) => {
 		let result = await fetch(url, {
 			method: 'POST',
 			body: data
@@ -22,31 +29,26 @@ function form(state) {
 		return await result.text();
 	};
 
-	const showMessageModal = (message) => {
-		const previousModalContent = document.querySelector('.popup-dialog');
-
-		previousModalContent.style.display = 'none';
-
-		const messageModal = document.createElement('div');
-		messageModal.classList.add('popup-dialog');
-		messageModal.innerHTML = `
-			<div class=popup-content>
-				<button class=popup-close>&times;</button>
-				<h4>${message}</h4>
-			</div>
-		`;
-		if (previousModalContent.parentNode.classList.contains('popup-consultation')) {
-			document.querySelector('.popup-consultation').append(messageModal);
-		} else {
-			document.querySelector('.popup-design').append(messageModal);
-		}
-		
-		setTimeout(() => {
-			messageModal.remove();
-			previousModalContent.style.display = 'block';
-			closeModal(document.querySelector('.popup-consultation'));
-		}, 5000);
+	const clearInputs = () => {
+		inputs.forEach(item => {
+			item.value = '';
+		});
+		imgInputs.forEach(item => {
+			item.previousElementSibling.textContent = 'Файл не выбран';
+		});
 	};
+
+	imgInputs.forEach(item => {
+		item.addEventListener('input', () => {
+			let dots;
+			const arrName = item.files[0].name.split('.');
+			arrName[0].length > 5 ? dots = '...' : dots = '.';
+
+			const imgName = arrName[0].slice(0, 5) + dots + arrName[1];
+
+			item.previousElementSibling.textContent = imgName;
+		});
+	});
 
 	forms.forEach(item => {
 		item.addEventListener('submit', (e) => {
@@ -54,21 +56,46 @@ function form(state) {
 
 			let statusMessage = document.createElement('div');
 			statusMessage.classList.add('status');
-			item.append(statusMessage);
+			statusMessage.style.cssText = 'display:flex;flex-direction:column;align-items:center;';
+			item.parentNode.append(statusMessage);
+			item.classList.add('animated', 'fadeOutUp');
+			item.style.display = 'none';
+
+			let statusImg = document.createElement('img');
+			statusImg.setAttribute('src', message.loadImg);
+			statusImg.classList.add('animated', 'fadeInUp');
+			statusMessage.append(statusImg);
+
+			let statusText = document.createElement('h4');
+			statusText.textContent = message.load;
+			statusMessage.append(statusText);
 
 			const formData = new FormData(item);
-			postData('assets/server.php', formData)
+
+			let api;
+			item.closest('.popup-design') || item.classList.contains('calc_form') ? api = path.designer : api = path.question;
+
+			postData(api, formData)
 				.then(res => {
 					console.log(res);
-					showMessageModal(message.success);
+					console.log(api);
+					statusImg.setAttribute('src', message.successImg);
+					statusText.textContent = message.success;
 				})
 				.catch(() => {
-					showMessageModal(message.fail);
+					statusImg.setAttribute('src', message.failImg);
+					statusText.textContent = message.fail;
 				})
 				.finally(() => {
-					//item.reset();
+					clearInputs();
 					setTimeout(() => {
 						statusMessage.remove();
+						item.classList.remove('animated', 'fadeOutUp');
+						item.classList.add('animated', 'fadeInUp');
+						item.style.display = 'block';
+						windows.forEach(window => {
+							closeModal(window);
+						});
 					}, 5000)
 				});
 		});
