@@ -1,15 +1,12 @@
 function validatePhone(selector) {
 	const inputs = document.querySelectorAll(selector);
 
-	inputs.forEach(item => {
-		//console.log();
-		item.addEventListener('input', createMask);
-		item.addEventListener('focus', createMask);
-		item.addEventListener('blur', createMask);
-	});
-
 	function setCursorPosition(position, elem) {
 		elem.focus();
+
+		elem.addEventListener('click', () => {
+			elem.selectionStart = elem.selectionEnd = elem.value.length;
+		});
 
 		if (elem.setSelectionRange) {
 			elem.setSelectionRange(position, position);
@@ -44,6 +41,12 @@ function validatePhone(selector) {
 			setCursorPosition(this.value.length, this);
 		}
 	}
+
+	inputs.forEach(item => {
+		item.addEventListener('input', createMask);
+		item.addEventListener('focus', createMask);
+		item.addEventListener('blur', createMask);
+	});
 }
 
 export default validatePhone;
