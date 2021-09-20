@@ -12,5 +12,5 @@ window.addEventListener('DOMContentLoaded', () => {
 	slider('.main-slider-item', '.main-slider', 'vertical');
 	slider('.feedback-slider-item', '.feedback-slider', 'horizontal', '.main-prev-btn', '.main-next-btn');
 	form(modalData);
-	validatePhone();
+	validatePhone('input[name="phone"]');
 });

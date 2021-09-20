@@ -1,17 +1,24 @@
 function validatePhone(selector) {
-	/*const phoneInputs = document.querySelectorAll('input[name="phone"]');
+	const inputs = document.querySelectorAll(selector);
 
-	phoneInputs.forEach(item => {
-		console.log();
-	});*/
+	inputs.forEach(item => {
+		//console.log();
+		item.addEventListener('input', createMask);
+		item.addEventListener('focus', createMask);
+		item.addEventListener('blur', createMask);
+	});
+
 	function setCursorPosition(position, elem) {
 		elem.focus();
 
 		if (elem.setSelectionRange) {
-			elem.setSelectionRange(pos, pos);
+			elem.setSelectionRange(position, position);
 		} else if (elem.createTextRange) {
 			let range = elem.createTextRange();
 			range.collapse(true);
+			range.moveEnd('char', position);
+			range.moveStart('char', position);
+			range.select();
 		}
 	}
 
