@@ -14,5 +14,6 @@ window.addEventListener('DOMContentLoaded', () => {
 	slider('.feedback-slider-item', '.feedback-slider', 'horizontal', '.main-prev-btn', '.main-next-btn');
 	form(modalData);
 	validatePhone('input[name="phone"]');
-	checkTextInput();
+	checkTextInput('[name="name"]');
+	checkTextInput('[name="message"]');
 });

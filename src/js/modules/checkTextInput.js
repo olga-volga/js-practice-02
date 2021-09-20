@@ -1,10 +1,9 @@
-function checkTextInput() {
-	const nameInputs = document.querySelectorAll('[name="name"]'),
-		  textInputs = document.querySelectorAll('[name="message"]');
+function checkTextInput(selector) {
+	const textInputs = document.querySelectorAll(selector);
 
-	nameInputs.forEach(item => {
+	textInputs.forEach(item => {
 		item.addEventListener('input', () => {
-			item.value = item.value.replace(/\w/g, '');
+			item.value = item.value.replace(/\w/ig, '');
 		});
 	});
 }
