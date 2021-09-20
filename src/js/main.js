@@ -15,5 +15,5 @@ window.addEventListener('DOMContentLoaded', () => {
 	validatePhone('input[name="phone"]');
 	checkTextInput('[name="name"]');
 	checkTextInput('[name="message"]');
-	showStyles();
+	showStyles('.button-styles', '.styles-2');
 });
