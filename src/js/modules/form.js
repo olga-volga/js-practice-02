@@ -1,6 +1,6 @@
 import {closeModal} from './modal';
 
-function form(info) {
+function form() {
 	const forms = document.querySelectorAll('form'),
 		  inputs = document.querySelectorAll('input'),
 		  phoneInputs = document.querySelectorAll('input[name="phone"]'),
