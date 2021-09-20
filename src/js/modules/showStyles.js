@@ -2,6 +2,10 @@ function showStyles(triggerSelector, stylesSelector) {
 	const trigger = document.querySelector(triggerSelector),
 		  styles = document.querySelectorAll(stylesSelector);
 
+	styles.forEach(item => {
+		item.classList.add('animated', 'fadeInUp');
+	});
+
 	trigger.addEventListener('click', (e) => {
 		if (e.target) {
 			e.target.style.display = 'none';
