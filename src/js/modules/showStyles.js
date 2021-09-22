@@ -1,8 +1,42 @@
 import {getResource} from '../services/requests';
 
-function showStyles(triggerSelector, stylesSelector) {
-	const trigger = document.querySelector(triggerSelector),
-		  styles = document.querySelectorAll(stylesSelector);
+function showStyles(triggerSelector, wrapperSelector) {
+	const trigger = document.querySelector(triggerSelector);
+
+	function createCards(response) {
+		response.forEach(item => {
+			const elem = document.createElement('div');
+			elem.classList.add('animated', 'fadeInUp', 'col-sm-3', 'col-sm-offset-0', 'col-xs-10', 'col-xs-offset-1');
+
+			elem.innerHTML = `
+				<div class=styles-block>
+					<img src=${item.src} alt>
+					<h4>${item.title}</h4>
+					<a href="${item.link}">Подробнее</a>
+				</div>
+			`;
+
+			document.querySelector(wrapperSelector).append(elem);
+		});
+	}
+
+	function showError() {
+		let errorMessage = document.createElement('div');
+		errorMessage.classList.add('error');
+		errorMessage.style.cssText = 'text-align:center;padding:30px;';
+		errorMessage.textContent = 'Что-то пошло не так... Попробуйте позже';
+		document.querySelector(wrapperSelector).append(errorMessage);
+	}
+
+	trigger.addEventListener('click', (e) => {
+		getResource('http://localhost:3000/styles')
+			.then(data => createCards(data))
+			.catch(() => showError());
+
+		if (e.target) {
+			e.target.remove();
+		}
+	});
 
 	/**** Upload style cards by changing css-classes (simple way)
 
@@ -21,6 +55,8 @@ function showStyles(triggerSelector, stylesSelector) {
 	});
 
 	***/
+
+	/**** Upload style cards by creating ES6 Classes
 
 	class StyleCard {
 		constructor(src, title, link, parent, ...classes) {
@@ -64,6 +100,8 @@ function showStyles(triggerSelector, stylesSelector) {
 			});
 		
 	});
+
+	***/
 
 	
 }
