@@ -23,24 +23,28 @@ function showStyles(triggerSelector, stylesSelector) {
 	***/
 
 	class StyleCard {
-		constructor(src, title, link) {
+		constructor(src, title, link, parent, ...classes) {
 			this.src = src;
 			this.title = title;
 			this.link = link;
+			this.parent = document.querySelector(parent);
+			this.classes = classes;
 		}
 		render() {
 			const elem = document.createElement('div');
 			if (this.classes.length === 0) {
-				this.defaultClass = 'styles-block';
+				this.defaultClass = 'col-sm-3';
 				elem.classList.add(this.defaultClass);
 			} else {
 				this.classes.forEach(item => elem.classList.add(item));
 			}
 
 			elem.innerHTML = `
-				<img src=${this.src} alt>
-				<h4>${this.title}</h4>
-				<a href="${this.link}">Подробнее</a>
+				<div class=styles-block>
+					<img src=${this.src} alt>
+					<h4>${this.title}</h4>
+					<a href="${this.link}">Подробнее</a>
+				</div>
 			`;
 
 			this.parent.append(elem);
@@ -52,12 +56,13 @@ function showStyles(triggerSelector, stylesSelector) {
 			e.target.style.display = 'none';
 		}
 		getResource('http://localhost:3000/styles')
+			//.then(res => console.log(res));
 			.then(data => {
 				data.forEach(({src, title, link}) => {
-					new StyleCard(src, title, link).render();
-					console.log(111);
+					new StyleCard(src, title, link, '.styles .container .row').render();
 				});
 			});
+		
 	});
 
 	
