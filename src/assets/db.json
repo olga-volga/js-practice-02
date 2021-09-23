@@ -20,5 +20,20 @@
             "title": "Шарж",
             "link": "#sharj"
         }
+    ],
+    "size": [
+        {
+            "small": "500",
+            "middle": "1000",
+            "large": "1500",
+            "extra": "2000"
+        }
+    ],
+    "material": [
+        {
+            "fiber": "500",
+            "linen": "1000",
+            "cotton": "500"
+        }
     ]
 }
