@@ -1,29 +1,30 @@
 import {getResource} from '../services/requests';
 
-function calc() {
-	const size = document.querySelector('#size'),
-		  material = document.querySelector('#material'),
-		  options = document.querySelector('#options'),
-		  promocode = document.querySelector('.promocode'),
-		  priceBlock = document.querySelector('.calc-price');
+function calc(sizeSelector, materialSelector, optionsSelector, promocodeSelector, resultSelector) {
+	const size = document.querySelector(sizeSelector),
+		  material = document.querySelector(materialSelector),
+		  options = document.querySelector(optionsSelector),
+		  promocode = document.querySelector(promocodeSelector),
+		  result = document.querySelector(resultSelector);
 
-	let sum;
+	let sum = 0;
 
 	function calcPrice() {
-		sum = ((+size.value) * (+material.value)) + (+options.value);
+		sum = Math.round((+size.value) * (+material.value) + (+options.value));
 
 		if (size.value == '' || material.value == '') {
-			console.log(1);
+			result.textContent = 'Для расчета нужно выбрать размер картины и материал картины';
+		} else if (promocode.value === 'IWANTPOPART') {
+			result.textContent = `Стоимость заказа: ${Math.round(sum * 0.7)} рублей`;
 		} else {
-			priceBlock.textContent = `Стоимость заказа: ${sum} рублей`;
+			result.textContent = `Стоимость заказа: ${sum} рублей`;
 		}
-
-		
 	}
 
 	size.addEventListener('change', calcPrice);
 	material.addEventListener('change', calcPrice);
 	options.addEventListener('change', calcPrice);
+	promocode.addEventListener('input', calcPrice);
 
 }
 
