@@ -15,7 +15,8 @@ function calc(sizeSelector, materialSelector, optionsSelector, promocodeSelector
 		if (size.value == '' || material.value == '') {
 			result.textContent = 'Для расчета нужно выбрать размер картины и материал картины';
 		} else if (promocode.value === 'IWANTPOPART') {
-			result.textContent = `Стоимость заказа: ${Math.round(sum * 0.7)} рублей`;
+			sum = Math.round(sum * 0.7);
+			result.textContent = `Стоимость заказа: ${sum} рублей`;
 		} else {
 			result.textContent = `Стоимость заказа: ${sum} рублей`;
 		}

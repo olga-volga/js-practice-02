@@ -1,11 +1,12 @@
 import {closeModal} from './modal';
 import {postData} from '../services/requests';
 
-function form() {
+function form(order) {
 	const forms = document.querySelectorAll('form'),
 		  inputs = document.querySelectorAll('input'),
 		  phoneInputs = document.querySelectorAll('input[name="phone"]'),
 		  imgInputs = document.querySelectorAll('input[name="upload"]'),
+		  selects = document.querySelectorAll('select'),
 		  windows = document.querySelectorAll('[data-modal]');
 
 	const message = {
@@ -29,6 +30,17 @@ function form() {
 		imgInputs.forEach(item => {
 			item.previousElementSibling.textContent = 'Файл не выбран';
 		});
+		selects.forEach(item => {
+			item.value = '';
+		});
+	};
+
+	const clearOrder = () => {
+		for (let key in order) {
+			if (key !== 'options') {
+				delete order[key];
+			}
+		}
 	};
 
 	imgInputs.forEach(item => {
@@ -65,6 +77,12 @@ function form() {
 
 			const formData = new FormData(item);
 
+			if (item.getAttribute('data-calc') === "calc") {
+				for (let key in order) {
+					formData.append(key, order[key]);
+				}
+			}
+
 			let api;
 			item.closest('.popup-design') || item.classList.contains('calc_form') ? api = path.designer : api = path.question;
 
@@ -81,6 +99,8 @@ function form() {
 				})
 				.finally(() => {
 					clearInputs();
+					document.querySelector('.calc-price').textContent = 'Для расчета нужно выбрать размер картины и материал картины';
+					clearOrder();
 					setTimeout(() => {
 						statusMessage.remove();
 						item.classList.remove('animated', 'fadeOutUp');
