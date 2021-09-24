@@ -1,6 +1,6 @@
 import {getResource} from '../services/requests';
 
-function calc(sizeSelector, materialSelector, optionsSelector, promocodeSelector, resultSelector) {
+function calc(sizeSelector, materialSelector, optionsSelector, promocodeSelector, resultSelector, order) {
 	const size = document.querySelector(sizeSelector),
 		  material = document.querySelector(materialSelector),
 		  options = document.querySelector(optionsSelector),
@@ -19,12 +19,21 @@ function calc(sizeSelector, materialSelector, optionsSelector, promocodeSelector
 		} else {
 			result.textContent = `Стоимость заказа: ${sum} рублей`;
 		}
+		order.sum = sum;
 	}
 
-	size.addEventListener('change', calcPrice);
-	material.addEventListener('change', calcPrice);
-	options.addEventListener('change', calcPrice);
-	promocode.addEventListener('input', calcPrice);
+	function addEventToElem(elem, event, property) {
+		elem.addEventListener(event, () => {
+			calcPrice();
+			order[property] = elem.value;
+			console.log(order);
+		});
+	}
+
+	addEventToElem(size, 'change', 'size');
+	addEventToElem(material, 'change', 'material');
+	addEventToElem(options, 'change', 'options');
+	addEventToElem(promocode, 'input', 'promocode');
 
 }
 

@@ -9,6 +9,10 @@ import calc from './modules/calc';
 window.addEventListener('DOMContentLoaded', () => {
 	'use strict';
 
+	let orderForm = {
+		options: 0
+	};
+
 	modal();
 	slider('.main-slider-item', '.main-slider', 'vertical');
 	slider('.feedback-slider-item', '.feedback-slider', 'horizontal', '.main-prev-btn', '.main-next-btn');
@@ -17,5 +21,5 @@ window.addEventListener('DOMContentLoaded', () => {
 	checkTextInput('[name="name"]');
 	checkTextInput('[name="message"]');
 	showStyles('.button-styles', '.styles .container .row');
-	calc('#size', '#material', '#options', '.promocode', '.calc-price');
+	calc('#size', '#material', '#options', '.promocode', '.calc-price', orderForm);
 });
