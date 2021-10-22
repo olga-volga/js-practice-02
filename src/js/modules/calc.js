@@ -21,6 +21,12 @@ function calc(sizeSelector, materialSelector, optionsSelector, promocodeSelector
 			result.textContent = `Стоимость заказа: ${sum} рублей`;
 		}
 		order.sum = sum;
+
+		if (size.value && material.value) {
+			document.querySelector('.button-calc').disabled = false;
+		} else {
+			document.querySelector('.button-calc').disabled = true;
+		}
 	}
 
 	function addEventToElem(elem, event, property) {
