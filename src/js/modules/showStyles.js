@@ -1,4 +1,5 @@
 import {getResource} from '../services/requests';
+import showError from './showError';
 
 function showStyles(triggerSelector, wrapperSelector) {
 	const trigger = document.querySelector(triggerSelector);
@@ -20,18 +21,18 @@ function showStyles(triggerSelector, wrapperSelector) {
 		});
 	}
 
-	function showError() {
+	/*function showError() {
 		let errorMessage = document.createElement('div');
 		errorMessage.classList.add('error');
 		errorMessage.style.cssText = 'text-align:center;padding:30px;';
 		errorMessage.textContent = 'Что-то пошло не так... Попробуйте позже';
 		document.querySelector(wrapperSelector).append(errorMessage);
-	}
+	}*/
 
 	trigger.addEventListener('click', (e) => {
 		getResource('http://localhost:3000/styles')
 			.then(data => createCards(data))
-			.catch(() => showError());
+			.catch(() => showError(wrapperSelector));
 
 		if (e.target) {
 			e.target.remove();

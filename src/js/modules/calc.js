@@ -1,4 +1,5 @@
 import {getResource} from '../services/requests';
+import showError from './showError';
 
 function calc(sizeSelector, materialSelector, optionsSelector, promocodeSelector, resultSelector, order) {
 	const size = document.querySelector(sizeSelector),
@@ -55,7 +56,8 @@ function calc(sizeSelector, materialSelector, optionsSelector, promocodeSelector
 				calcPrice();
 				console.log(order);
 			})
-			.catch(() => showError());
+			//.catch(() => showError('.calc-price'));
+			.catch(err => console.log(err));
 
 	});
 	material.addEventListener('change', (e) => {
@@ -79,7 +81,8 @@ function calc(sizeSelector, materialSelector, optionsSelector, promocodeSelector
 				calcPrice();
 				console.log(order);
 			})
-			.catch(() => showError());
+			//.catch(() => showError('.calc-price'));
+			//.catch(err => console.log(err));
 
 	});
 	options.addEventListener('change', (e) => {
@@ -103,8 +106,8 @@ function calc(sizeSelector, materialSelector, optionsSelector, promocodeSelector
 				calcPrice();
 				console.log(order);
 			})
-			.catch(() => showError());
-
+			//.catch(() => showError('.calc-price'));
+			//.catch(err => console.log(err));
 	});
 
 	/*size.addEventListener('change', (e) => {
@@ -127,12 +130,10 @@ function calc(sizeSelector, materialSelector, optionsSelector, promocodeSelector
 				}
 			})
 			//.catch(() => showError());
-		//calcPrice(sizeValue, material.value, options.value);
-		order[size] = sizeValue;
-		console.log(sizeValue);
+		calcPrice(sizeValue, material.value, options.value);
 		console.log(order);
-	});*/
-	/*material.addEventListener('change', (e) => {
+	});
+	material.addEventListener('change', (e) => {
 		let materialValue = '';
 		getResource('http://localhost:3000/material')
 			.then(data => {
@@ -150,8 +151,6 @@ function calc(sizeSelector, materialSelector, optionsSelector, promocodeSelector
 			})
 			//.catch(() => showError());
 		calcPrice(size.value, materialValue, options.value);
-		order[material] = materialValue;
-		console.log(materialValue);
 		console.log(order);
 	});
 	options.addEventListener('change', (e) => {
@@ -172,8 +171,6 @@ function calc(sizeSelector, materialSelector, optionsSelector, promocodeSelector
 			})
 			//.catch(() => showError());
 		calcPrice(size.value, material.value, optionsValue);
-		order[options] = optionsValue;
-		console.log(optionsValue);
 		console.log(order);
 	});*/
 
