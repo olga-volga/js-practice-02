@@ -5,6 +5,7 @@ import validatePhone from './modules/validatePhone';
 import checkTextInput from './modules/checkTextInput';
 import showStyles from './modules/showStyles';
 import calc from './modules/calc';
+import filter from './modules/filter';
 
 window.addEventListener('DOMContentLoaded', () => {
 	'use strict';
@@ -22,4 +23,5 @@ window.addEventListener('DOMContentLoaded', () => {
 	checkTextInput('[name="message"]');
 	showStyles('.button-styles', '.styles .container .row');
 	calc('#size', '#material', '#options', '.promocode', '.calc-price', orderForm);
+	filter();
 });
