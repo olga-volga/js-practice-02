@@ -1,8 +1,8 @@
-function filter() {
-	const tabHeadersParent = document.querySelector('.portfolio-menu'),
-		  tabHeaders = document.querySelectorAll('.portfolio-menu li'),
-		  tabsContent = document.querySelectorAll('.portfolio-block'),
-		  portfolioMessage = document.querySelector('.portfolio-no');
+function filter(tabHeadersParentSelector, tabHeadersSelector, tabsContentSelector, noPortfolioSelector) {
+	const tabHeadersParent = document.querySelector(tabHeadersParentSelector),
+		  tabHeaders = tabHeadersParent.querySelectorAll(tabHeadersSelector),
+		  tabsContent = document.querySelectorAll(tabsContentSelector),
+		  noPortfolio = document.querySelector(noPortfolioSelector);
 
 	function hideTabContent() {
 		tabsContent.forEach(item => {
@@ -12,9 +12,11 @@ function filter() {
 			item.classList.remove('active');
 		});
 	}
-	function filterTabContent(classToFilter = 'all') {
+	function filterTabContent(classToFilter) {
 		let isClassPresented;
-		
+
+		hideTabContent();
+
 		tabsContent.forEach(item => {
 			if (item.classList.contains(classToFilter)) {
 				item.style.display = 'block';
@@ -27,44 +29,17 @@ function filter() {
 			}
 		});
 		if (!isClassPresented) {
-			portfolioMessage.style.display = 'block';
+			noPortfolio.style.display = 'block';
 		} else {
-			portfolioMessage.style.display = 'none';
+			noPortfolio.style.display = 'none';
 		}
 	}
 
-	hideTabContent();
-	filterTabContent();
-
 	tabHeadersParent.addEventListener('click', (e) => {
-		let className = '';
 		if (e.target && e.target.nodeName === 'LI') {
 			tabHeaders.forEach((item, i) => {
 				if (e.target == item) {
-					switch(e.target.className) {
-						case 'all':
-							className = 'all';
-							break;
-						case 'lovers':
-							className = 'lovers';
-							break;
-						case 'chef':
-							className = 'chef';
-							break;
-						case 'girl':
-							className = 'girl';
-							break;
-						case 'guy':
-							className = 'guy';
-							break;
-						case 'grandmother':
-							className = 'grandmother';
-							break;
-						case 'granddad':
-							className = 'granddad';
-							break;
-					}
-					hideTabContent();
+					let className = e.target.className;
 					filterTabContent(className);
 				}
 			});

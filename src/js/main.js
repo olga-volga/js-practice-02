@@ -23,5 +23,5 @@ window.addEventListener('DOMContentLoaded', () => {
 	checkTextInput('[name="message"]');
 	showStyles('.button-styles', '.styles .container .row');
 	calc('#size', '#material', '#options', '.promocode', '.calc-price', orderForm);
-	filter();
+	filter('.portfolio-menu', 'li', '.portfolio-block', '.portfolio-no');
 });
