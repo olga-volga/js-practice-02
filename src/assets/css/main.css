@@ -442,6 +442,7 @@ h4 {
 }
 .styles-block img {
   max-width: 100%;
+  width: 153px;
   display: block;
   margin: 0 auto;
 }
