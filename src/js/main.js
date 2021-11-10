@@ -11,7 +11,7 @@ window.addEventListener('DOMContentLoaded', () => {
 	'use strict';
 
 	let orderForm = {
-		options: 0
+		sum: 0
 	};
 
 	modal();

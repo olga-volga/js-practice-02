@@ -37,13 +37,19 @@ function form(order) {
 
 	const clearOrder = () => {
 		for (let key in order) {
-			if (key === 'options') {
+			if (key === 'sum') {
 				order[key] = 0;
 			} else {
 				delete order[key];
 			}
 		}
 	};
+
+	const removeElemAttribute = () => {
+		selects.forEach(item => {
+			item.removeAttribute('value');
+		});
+	}
 
 	imgInputs.forEach(item => {
 		item.addEventListener('input', () => {
@@ -101,8 +107,9 @@ function form(order) {
 				})
 				.finally(() => {
 					clearInputs();
-					document.querySelector('.calc-price').textContent = 'Для расчета нужно выбрать размер картины и материал картины';
 					clearOrder();
+					removeElemAttribute();
+					document.querySelector('.calc-price').textContent = 'Для расчета нужно выбрать размер картины и материал картины';
 					document.querySelector('.button-calc').disabled = true;
 					setTimeout(() => {
 						statusMessage.remove();

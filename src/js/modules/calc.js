@@ -12,167 +12,112 @@ function calc(sizeSelector, materialSelector, optionsSelector, promocodeSelector
 
 	// Calculate price using values got from db.json
 
-	function calcPrice() {
-		sum = Math.round((+order.size) * (+order.material) + (+order.options));
+	function calcPrice(sizeValue, materialValue, optionValue = 0, promocodeValue) {
+		sum = Math.round((+sizeValue) * (+materialValue) + (+optionValue));
 
-		if (order.size == '' || order.material == '') {
+		if (!sizeValue || !materialValue) {
 			result.textContent = 'Для расчета нужно выбрать размер картины и материал картины';
-		} else if (promocode.value === 'IWANTPOPART') {
+		} else if (promocodeValue === 'IWANTPOPART') {
 			sum = Math.round(sum * 0.7);
 			result.textContent = `Стоимость заказа: ${sum} рублей`;
 		} else {
 			result.textContent = `Стоимость заказа: ${sum} рублей`;
+			document.querySelector('.button-calc').disabled = false;
 		}
 		order.sum = sum;
-
-		if (order.size && order.material) {
-			document.querySelector('.button-calc').disabled = false;
-		} else {
-			document.querySelector('.button-calc').disabled = true;
-		}
 	}
 
 	size.addEventListener('change', (e) => {
-		let sizeValue = '';
+		let value;
 		getResource('http://localhost:3000/size')
 			.then(data => {
 				data.forEach(item => {
 					switch(e.target.value) {
+						case 'Выберите размер картины':
+							value = '';
+							break;
 						case '40x50':
-							sizeValue = item.small;
+							value = item.small;
 							break;
 						case '50x70':
-							sizeValue = item.middle;
+							value = item.middle;
 							break;
 						case '70x70':
-							sizeValue = item.large;
+							value = item.large;
 							break;
 						case '70x100':
-							sizeValue = item.extra;
+							value = item.extra;
 							break;
 					}
 				});
-				order.size = sizeValue;
-				calcPrice();
+				e.target.setAttribute('value', `${value}`);
+				calcPrice(value, material.getAttribute('value'), options.getAttribute('value'));
+				order.size = e.target.value;
 				console.log(order);
 			})
-			//.catch(() => showError('.calc-price'));
+			.catch(() => showError('.calc-price'));
+	});
+	material.addEventListener('change', (e) => {
+		let value;
+		getResource('http://localhost:3000/material')
+			.then(data => {
+				data.forEach(item => {
+					switch(e.target.value) {
+						case 'Выберите материал картины':
+							value = '';
+							break;
+						case 'Холст из волокна':
+							value = item.fiber;
+							break;
+						case 'Льняной холст':
+							value = item.linen;
+							break;
+						case 'Холст из натурального хлопка':
+							value = item.cotton;
+							break;
+					}
+				});
+				e.target.setAttribute('value', `${value}`);
+				calcPrice(size.getAttribute('value'), value, options.getAttribute('value'));
+				order.material = e.target.value;
+				console.log(order);
+			})
 			.catch(err => console.log(err));
 
 	});
-	material.addEventListener('change', (e) => {
-		let materialValue = '';
-		getResource('http://localhost:3000/material')
-			.then(data => {
-				data.forEach(item => {
-					switch(e.target.value) {
-						case 'Холст из волокна':
-							materialValue = item.fiber;
-							break;
-						case 'Льняной холст':
-							materialValue = item.linen;
-							break;
-						case 'Холст из натурального хлопка':
-							materialValue = item.cotton;
-							break;
-					}
-				});
-				order.material = materialValue;
-				calcPrice();
-				console.log(order);
-			})
-			//.catch(() => showError('.calc-price'));
-			//.catch(err => console.log(err));
-
-	});
 	options.addEventListener('change', (e) => {
-		let optionsValue = '';
+		let value;
 		getResource('http://localhost:3000/option')
 			.then(data => {
 				data.forEach(item => {
 					switch(e.target.value) {
+						case 'Дополнительные услуги':
+							value = '0';
+							break;
 						case 'Покрытие арт-гелем':
-							optionsValue = item.cover;
+							value = item.cover;
 							break;
 						case 'Экспресс-изготовление':
-							optionsValue = item.express;
+							value = item.express;
 							break;
-						case 'Доставка готовых работ ':
-							optionsValue = item.delivery;
+						case 'Доставка готовых работ':
+							value = item.delivery;
 							break;
 					}
 				});
-				order.options = optionsValue;
-				calcPrice();
+				e.target.setAttribute('value', `${value}`);
+				calcPrice(size.getAttribute('value'), material.getAttribute('value'), value);
+				order.options = e.target.value;
 				console.log(order);
 			})
-			//.catch(() => showError('.calc-price'));
-			//.catch(err => console.log(err));
+			.catch(err => console.log(err));
 	});
-
-	/*size.addEventListener('change', (e) => {
-		let sizeValue = '';
-		getResource('http://localhost:3000/size')
-			.then(data => {
-				switch(e.target.value) {
-					case '40x50':
-						sizeValue = data[0].small;
-						break;
-					case '50x70':
-						sizeValue = data[0].middle;
-						break;
-					case '70x70':
-						sizeValue = data[0].large;
-						break;
-					case '70x100':
-						sizeValue = data[0].extra;
-						break;
-				}
-			})
-			//.catch(() => showError());
-		calcPrice(sizeValue, material.value, options.value);
+	promocode.addEventListener('input', (e) => {
+		let value = e.target.value;
+		calcPrice(size.getAttribute('value'), material.getAttribute('value'), options.getAttribute('value'), value);
+		order.promocode = e.target.value;
 		console.log(order);
 	});
-	material.addEventListener('change', (e) => {
-		let materialValue = '';
-		getResource('http://localhost:3000/material')
-			.then(data => {
-				switch(e.target.value) {
-					case 'Холст из волокна':
-						materialValue = data[0].fiber;
-						break;
-					case 'Льняной холст':
-						materialValue = data[0].linen;
-						break;
-					case 'Холст из натурального хлопка':
-						materialValue = data[0].cotton;
-						break;
-				}
-			})
-			//.catch(() => showError());
-		calcPrice(size.value, materialValue, options.value);
-		console.log(order);
-	});
-	options.addEventListener('change', (e) => {
-		let optionsValue = '';
-		getResource('http://localhost:3000/option')
-			.then(data => {
-				switch(e.target.value) {
-					case 'Покрытие арт-гелем':
-						optionsValue = data[0].cover;
-						break;
-					case 'Экспресс-изготовление':
-						optionsValue = data[0].express;
-						break;
-					case 'Доставка готовых работ ':
-						optionsValue = data[0].delivery;
-						break;
-				}
-			})
-			//.catch(() => showError());
-		calcPrice(size.value, material.value, optionsValue);
-		console.log(order);
-	});*/
 
 
 	// Calculate price using static values got from index.html
