@@ -7,6 +7,7 @@ import showStyles from './modules/showStyles';
 import calc from './modules/calc';
 import filter from './modules/filter';
 import showPicture from './modules/showPicture';
+import accordion from './modules/accordion';
 
 window.addEventListener('DOMContentLoaded', () => {
 	'use strict';
@@ -26,4 +27,5 @@ window.addEventListener('DOMContentLoaded', () => {
 	calc('#size', '#material', '#options', '.promocode', '.calc-price', orderForm);
 	filter('.portfolio-menu', 'li', '.portfolio-block', '.portfolio-no');
 	showPicture('.sizes-block');
+	accordion('.accordion-heading');
 });
