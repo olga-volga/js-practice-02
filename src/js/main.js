@@ -8,6 +8,7 @@ import calc from './modules/calc';
 import filter from './modules/filter';
 import showPicture from './modules/showPicture';
 import accordion from './modules/accordion';
+import menu from './modules/menu';
 
 window.addEventListener('DOMContentLoaded', () => {
 	'use strict';
@@ -28,4 +29,5 @@ window.addEventListener('DOMContentLoaded', () => {
 	filter('.portfolio-menu', 'li', '.portfolio-block', '.portfolio-no');
 	showPicture('.sizes-block');
 	accordion('.accordion-heading');
+	menu('.burger', '.burger-menu');
 });
