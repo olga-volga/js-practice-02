@@ -3,7 +3,55 @@ function scroll() {
 		  docElement = document.documentElement,
 		  body = document.body;
 
-	function softScroll(start, end, hash) {
+	window.addEventListener('scroll', () => {
+		if (docElement.scrollTop > 700) {
+			upBtn.classList.add('animated', 'fadeIn');
+			upBtn.classList.remove('fadeOut');
+		} else {
+			upBtn.classList.add('fadeOut');
+			upBtn.classList.remove('fadeIn');
+		}
+	});
+
+	//Scroll with requestAnimationFrame()
+
+	const localLinks = document.querySelectorAll('[href^="#"]'),
+		  speedScroll = 0.25;
+
+	localLinks.forEach(item => {
+		if (item.getAttribute("href") != '#') {
+			item.addEventListener('click', function(e) {
+				e.preventDefault();
+
+				let scrollTop = docElement.scrollTop,
+					hash = this.hash,
+					elemToScroll = document.querySelector(hash).getBoundingClientRect().top,
+					start = null;
+
+				requestAnimationFrame(step);
+
+				function step(time) {
+					if (start === null) {
+						start = time;
+					}
+					let progress = time - start,
+						pxToScroll = (elemToScroll < 0 ? Math.max(scrollTop - progress / speedScroll, scrollTop + elemToScroll) : Math.min(scrollTop + progress / speedScroll, scrollTop + elemToScroll));
+
+					docElement.scrollTo(0, pxToScroll);
+
+					if (pxToScroll != scrollTop + elemToScroll) {
+						requestAnimationFrame(step);
+					} else {
+						location.hash = hash;
+					}
+				}
+			});
+		}
+	});
+
+	//Scroll in pure JS
+
+	/*function softScroll(start, end, hash) {
 		let timeInterval = 1,
 			prevScrollTop,
 			speedScroll;
@@ -27,16 +75,6 @@ function scroll() {
 		}, timeInterval);
 	}
 
-	window.addEventListener('scroll', () => {
-		if (docElement.scrollTop > 700) {
-			upBtn.classList.add('animated', 'fadeIn');
-			upBtn.classList.remove('fadeOut');
-		} else {
-			upBtn.classList.add('fadeOut');
-			upBtn.classList.remove('fadeIn');
-		}
-	});
-
 	function calcScroll() {
 		upBtn.addEventListener('click', function(e) {
 			let scrollTop = Math.round(body.scrollTop || docElement.scrollTop);
@@ -57,7 +95,7 @@ function scroll() {
 			}
 		});
 	}
-	calcScroll();
+	calcScroll();*/
 }
 
 export default scroll;
