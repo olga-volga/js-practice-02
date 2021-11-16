@@ -31,5 +31,5 @@ window.addEventListener('DOMContentLoaded', () => {
 	showPicture('.sizes-block');
 	accordion('.accordion-heading');
 	menu('.burger', '.burger-menu');
-	scroll();
+	scroll('.pageup');
 });

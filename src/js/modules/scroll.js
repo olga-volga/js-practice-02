@@ -1,7 +1,6 @@
-function scroll() {
-	const upBtn = document.querySelector('.pageup'),
-		  docElement = document.documentElement,
-		  body = document.body;
+function scroll(upBtnSelector) {
+	const upBtn = document.querySelector(upBtnSelector),
+		  docElement = document.documentElement;
 
 	window.addEventListener('scroll', () => {
 		if (docElement.scrollTop > 700) {
@@ -51,7 +50,9 @@ function scroll() {
 
 	//Scroll in pure JS
 
-	/*function softScroll(start, end, hash) {
+	/*const body = document.body;
+
+	function softScroll(start, end, hash) {
 		let timeInterval = 1,
 			prevScrollTop,
 			speedScroll;
