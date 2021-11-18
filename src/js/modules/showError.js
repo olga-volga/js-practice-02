@@ -1,12 +1,12 @@
-function showError(elem) {
-	let errorMessage = document.createElement('div');
-	errorMessage.classList.add('error');
-	errorMessage.style.cssText = 'text-align:center;padding:15px;';
-	errorMessage.textContent = 'Что-то пошло не так... Попробуйте позже';
+function showError(elemSelector, message) {
+	let textMessage = document.createElement('div');
+	textMessage.classList.add('error');
+	textMessage.style.cssText = 'text-align:center;padding:15px;';
+	textMessage.textContent = message;
 
-	document.querySelector(elem).after(errorMessage);
+	document.querySelector(elemSelector).after(textMessage);
 	setTimeout(() => {
-		errorMessage.remove();
+		textMessage.remove();
 	}, 5000);
 }
 

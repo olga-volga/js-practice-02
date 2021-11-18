@@ -47,23 +47,18 @@ function drop() {
 				formData.append('file', item.files[0]);
 
 				postData('assets/server.php', formData)
-					.then(data => console.log(data))
-					.catch(() => {
-						showError('.main .file_upload');
+					.then(() => {
+						data => console.log(data);
+						showError('.main .file_upload', 'Отправлено!');
 					})
-					//.catch(err => console.log(err))
+					.catch(() => {
+						showError('.main .file_upload', 'Произошла ошибка...');
+					})
 					.finally(() => {
-						item.previousElementSibling.textContent = 'Файл не выбран';
+						setTimeout(() => {
+							item.previousElementSibling.textContent = 'Файл не выбран';
+						}, 5000);
 					});
-
-				/*fetch('assets/server.php', {
-					method: 'POST',
-					body: formData
-					
-				})
-				.then(data => data.text())
-				.then(data => console.log(data))
-				.catch(err => console.log(err))*/
 			}
 		});
 	});
