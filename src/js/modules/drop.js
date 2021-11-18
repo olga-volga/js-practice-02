@@ -1,5 +1,5 @@
 import {postData} from '../services/requests';
-import showError from './showError';
+import showMessage from './showMessage';
 
 function drop() {
 	const fileInputs = document.querySelectorAll('[name="upload"]');
@@ -49,10 +49,10 @@ function drop() {
 				postData('assets/server.php', formData)
 					.then(() => {
 						data => console.log(data);
-						showError('.main .file_upload', 'Отправлено!');
+						showMessage('.main .file_upload', 'Отправлено!');
 					})
 					.catch(() => {
-						showError('.main .file_upload', 'Произошла ошибка...');
+						showMessage('.main .file_upload', 'Произошла ошибка...');
 					})
 					.finally(() => {
 						setTimeout(() => {

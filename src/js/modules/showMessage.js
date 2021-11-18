@@ -1,4 +1,4 @@
-function showError(elemSelector, message) {
+function showMessage(elemSelector, message) {
 	let textMessage = document.createElement('div');
 	textMessage.classList.add('error');
 	textMessage.style.cssText = 'text-align:center;padding:15px;';
@@ -10,4 +10,4 @@ function showError(elemSelector, message) {
 	}, 5000);
 }
 
-export default showError;
+export default showMessage;

@@ -1,5 +1,5 @@
 import {getResource} from '../services/requests';
-import showError from './showError';
+import showMessage from './showMessage';
 
 function calc(sizeSelector, materialSelector, optionsSelector, promocodeSelector, resultSelector, order) {
 	const size = document.querySelector(sizeSelector),
@@ -55,7 +55,7 @@ function calc(sizeSelector, materialSelector, optionsSelector, promocodeSelector
 				order.size = e.target.value;
 				console.log(order);
 			})
-			.catch(() => showError('.calc-price'));
+			.catch(() => showMessage('.calc-price', 'Произошла ошибка... Попробуйте позже'));
 	});
 	material.addEventListener('change', (e) => {
 		let value;

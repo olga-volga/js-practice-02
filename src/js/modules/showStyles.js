@@ -1,5 +1,5 @@
 import {getResource} from '../services/requests';
-import showError from './showError';
+import showMessage from './showMessage';
 
 function showStyles(triggerSelector, wrapperSelector) {
 	const trigger = document.querySelector(triggerSelector);
@@ -24,7 +24,7 @@ function showStyles(triggerSelector, wrapperSelector) {
 	trigger.addEventListener('click', (e) => {
 		getResource('http://localhost:3000/styles')
 			.then(data => createCards(data))
-			.catch(() => showError(wrapperSelector));
+			.catch(() => showMessage(wrapperSelector, 'Произошла ошибка... Попробуйте позже'));
 
 		if (e.target) {
 			e.target.remove();
