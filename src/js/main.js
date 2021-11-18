@@ -10,6 +10,7 @@ import showPicture from './modules/showPicture';
 import accordion from './modules/accordion';
 import menu from './modules/menu';
 import scroll from './modules/scroll';
+import drop from './modules/drop';
 
 window.addEventListener('DOMContentLoaded', () => {
 	'use strict';
@@ -32,4 +33,5 @@ window.addEventListener('DOMContentLoaded', () => {
 	accordion('.accordion-heading');
 	menu('.burger', '.burger-menu');
 	scroll('.pageup');
+	drop();
 });
