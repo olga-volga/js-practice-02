@@ -5,6 +5,9 @@ function showError(elem) {
 	errorMessage.textContent = 'Что-то пошло не так... Попробуйте позже';
 
 	document.querySelector(elem).after(errorMessage);
+	setTimeout(() => {
+		errorMessage.remove();
+	}, 5000);
 }
 
 export default showError;
