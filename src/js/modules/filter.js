@@ -6,7 +6,8 @@ function filter(tabHeadersParentSelector, tabHeadersSelector, tabsContentSelecto
 
 	function hideTabContent() {
 		tabsContent.forEach(item => {
-			item.style.display = 'none';
+			item.classList.add('inactive');
+			item.classList.remove('animated', 'fadeIn');
 		});
 		tabHeaders.forEach(item => {
 			item.classList.remove('active');
@@ -19,7 +20,8 @@ function filter(tabHeadersParentSelector, tabHeadersSelector, tabsContentSelecto
 
 		tabsContent.forEach(item => {
 			if (item.classList.contains(classToFilter)) {
-				item.style.display = 'block';
+				item.classList.add('animated', 'fadeIn');
+				item.classList.remove('inactive');
 				isClassPresented = true;
 			}
 		});
@@ -29,9 +31,11 @@ function filter(tabHeadersParentSelector, tabHeadersSelector, tabsContentSelecto
 			}
 		});
 		if (!isClassPresented) {
+			noPortfolio.classList.add('animated', 'fadeIn');
 			noPortfolio.style.display = 'block';
 		} else {
 			noPortfolio.style.display = 'none';
+			noPortfolio.classList.remove('animated', 'fadeIn');
 		}
 	}
 

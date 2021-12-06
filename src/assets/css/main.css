@@ -649,6 +649,9 @@ h4 {
   width: 20%;
   padding: 0.5rem;
 }
+.portfolio-block.inactive {
+  display: none;
+}
 .portfolio-block img {
   max-width: 100%;
 }
