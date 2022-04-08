@@ -3,9 +3,9 @@ Pictures.art website - project in classical style.
 
 **In this project I practiced:**
 * JavaScript
+* GET/POST requests
 * JSON
-* BEM methodology
-* SCSS
+* Drag & drop image loading
 * Gulp
 
 **Demo:**
